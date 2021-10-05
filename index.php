@@ -1,3 +1,10 @@
+<?php
+    $genre = '';
+    if (isset($_GET['genre'])) {
+        $genre = $_GET['genre'];
+    }
+?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -9,17 +16,17 @@
 </head>
 <body>
 <form action="checkForm.php" method="post">
-    <input minlength="2" required type="text" name="title" placeholder="Titre du jeu">
+    <input type="text" name="title" placeholder="Titre du jeu" value="<?= isset($_GET['title']) ? $_GET['title'] : '' ?>">
     <?php
         if (isset($_GET['errorTitle'])) {
             echo $_GET['errorTitle'];
         }
     ?>
-    <select required name="genre">
+    <select  name="genre">
         <option value="">Choisissez un genre</option>
-        <option value="fps">F.P.S.</option>
-        <option value="rpg">R.P.G.</option>
-        <option value="mmo">M.M.O.</option>
+        <option value="fps" <?= $genre === 'fps' ? 'selected' : '' ?>>F.P.S.</option>
+        <option value="rpg" <?= $genre === 'rpg' ? 'selected' : '' ?>>R.P.G.</option>
+        <option value="mmo" <?= $genre === 'mmo' ? 'selected' : '' ?>>M.M.O.</option>
     </select>
     <?php echo isset($_GET['errorGenre']) ? $_GET['errorGenre'] : ''; ?>
 
@@ -33,6 +40,11 @@
     </div>
     <button>Ajouter un jeu</button>
 </form>
-
+<pre>
+<div>
+    titre : <?= isset($_GET['title']) ? $_GET['title'] : 'À définir' ?><br>
+    genre : <?= isset($_GET['genre']) ? $_GET['genre'] : 'À définir' ?><br>
+    platform : <?= isset($_GET['platform']) ? implode(' - ', $_GET['platform']) : 'À définir'; ?>
+</div>
 </body>
 </html>

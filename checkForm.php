@@ -17,9 +17,9 @@ if (empty($genre)) {
     $errors['errorGenre'] = 'Selectionner un genre';
 }
 if (count($errors) === 0) {
-    header('Location: /');
+    header('Location: /?' . http_build_query($_POST));
 } else {
-    header('Location: /?' . http_build_query($errors));
+    header('Location: /?' . http_build_query($errors) . '&' . http_build_query($_POST));
 }
 
 
