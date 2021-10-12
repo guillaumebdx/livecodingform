@@ -16,8 +16,19 @@ if (strlen($title) <=2) {
 if (empty($genre)) {
     $errors['errorGenre'] = 'Selectionner un genre';
 }
+$platform = 'PS5';
 if (count($errors) === 0) {
-    header('Location: /');
+    require 'connec.php';
+    $pdo = new PDO(DSN, USER, PASS);
+    $query = 'INSERT INTO game (title, genre, platform, created_at) VALUES (:title, :genre, :platform, NOW())';
+    $statement = $pdo->prepare($query);
+    $statement->bindValue(':title', $title, PDO::PARAM_STR);
+    $statement->bindValue(':genre', $genre, PDO::PARAM_STR);
+    $statement->bindValue(':platform', $platform, PDO::PARAM_STR);
+    $statement->execute();
+    $id = $pdo->lastInsertId();
+
+    header('Location: /game.php?id=' . $id);
 } else {
     header('Location: /?' . http_build_query($errors));
 }

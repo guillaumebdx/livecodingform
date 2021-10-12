@@ -34,5 +34,41 @@
     <button>Ajouter un jeu</button>
 </form>
 
+<?php
+    require 'connec.php';
+    $pdo = new PDO(DSN,USER,PASS);
+    $query = 'SELECT * FROM game';
+    $statement = $pdo->query($query);
+    $games = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+    <table border="1">
+        <tr>
+            <th>
+                id
+            </th>
+            <th>
+                Titre
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Plateforme
+            </th>
+        </tr>
+        <?php foreach ($games as $gameData): ?>
+        <tr>
+            <td><?= $gameData['id'] ?></td>
+            <td><?= $gameData['title'] ?></td>
+            <td><?= $gameData['platform'] ?></td>
+            <td><?= $gameData['genre'] ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+
+
+
+
 </body>
 </html>
